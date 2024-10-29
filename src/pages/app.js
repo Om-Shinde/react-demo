@@ -54,8 +54,8 @@ export default function App() {
               <svg
                 className="aspect-square max-w-[24px]"
                 fill="#ffffff"
-                width="64px"
-                height="64px"
+                width="24px"
+                height="24px"
                 viewBox="-3 0 19 19"
                 xmlns="http://www.w3.org/2000/svg"
                 class="cf-icon-svg"
@@ -108,10 +108,10 @@ export default function App() {
               className="h-[44px] w-full bg-teal-600 rounded-md flex items-center justify-center"
             >
               <svg
-                className="aspect-square max-w-[22px]"
+                height={20}
+                width={20}
+                className=" max-w-[20px]"
                 fill="#ffffff"
-                width="64px"
-                height="64px"
                 viewBox="-3.5 0 19 19"
                 xmlns="http://www.w3.org/2000/svg"
                 class="cf-icon-svg"
@@ -133,7 +133,7 @@ export default function App() {
               className="h-[44px] w-full bg-teal-600 rounded-md flex items-center justify-center"
             >
               <svg
-                className="aspect-square max-w-[32px]"
+                className="aspect-square max-w-[32px] "
                 width="64px"
                 height="64px"
                 viewBox="0 0 24 24"
@@ -148,7 +148,6 @@ export default function App() {
                   stroke-linejoin="round"
                 ></g>
                 <g id="SVGRepo_iconCarrier">
-                  {" "}
                   <path
                     d="M6.34277 12L17.6565 12"
                     stroke="#ffffff"
