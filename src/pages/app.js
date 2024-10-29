@@ -24,7 +24,7 @@ export default function App() {
 
   return (
     <div className="h-screen w-screen bg-teal-600 flex justify-center items-center  ">
-      <div className="h-[70%] w-[80%]   bg-white flex flex-col  items-center  px-[20px] py-[26px] rounded-lg gap-6 lg:max-w-[50%]">
+      <div className="h-[70%] w-[90%]   bg-white flex flex-col  items-center  px-[20px] py-[26px] rounded-lg gap-6 lg:max-w-[50%]">
         <p className="text-2xl text-gray-600 font-bold ">Calculator</p>
 
         <div className="h-fit w-full flex flex-col gap-[16px]">
