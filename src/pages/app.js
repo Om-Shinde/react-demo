@@ -1,186 +1,172 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function App() {
   const [result, setResult] = useState(0);
-  const [input1, setInput1] = useState(null);
-  const [input2, setInput2] = useState(null);
+  const [input1, setInput1] = useState("");
+  const [input2, setInput2] = useState("");
+  const [activeOperation, setActiveOperation] = useState(null);
+  const [animation, setAnimation] = useState(false);
+
   function add() {
+    setActiveOperation("add");
     setResult(Number(input1) + Number(input2));
+    triggerAnimation();
   }
+
   function subtract() {
+    setActiveOperation("subtract");
     setResult(Number(input1) - Number(input2));
+    triggerAnimation();
   }
+
   function multiply() {
+    setActiveOperation("multiply");
     setResult(Number(input1) * Number(input2));
+    triggerAnimation();
   }
+
   function divide() {
-    setResult(Number(input1) / Number(input2));
+    setActiveOperation("divide");
+    if (Number(input2) === 0) {
+      setResult("Cannot divide by zero");
+    } else {
+      setResult(Number(input1) / Number(input2));
+    }
+    triggerAnimation();
   }
-  function ClearAll() {
+
+  function clearAll() {
     setResult(0);
     setInput1("");
     setInput2("");
+    setActiveOperation(null);
   }
 
-  return (
-    <div className="h-screen w-screen bg-teal-600 flex justify-center items-center  ">
-      <div className="h-[70%] w-[90%]   bg-white flex flex-col  items-center  px-[20px] py-[26px] rounded-lg gap-6 lg:max-w-[50%]">
-        <p className="text-2xl text-gray-600 font-bold ">Calculator</p>
+  function triggerAnimation() {
+    setAnimation(true);
+    setTimeout(() => setAnimation(false), 500);
+  }
 
-        <div className="h-fit w-full flex flex-col gap-[16px]">
-          <input
-            placeholder="Enter the First value"
-            value={input1}
-            onChange={(e) => {
-              setInput1(e.target.value);
-            }}
-            className="h-[44px] w-full bg-gray-200 rounded-md px-[20px]"
-          ></input>
-          <input
-            placeholder="Enter the Second value"
-            value={input2}
-            onChange={(e) => {
-              setInput2(e.target.value);
-            }}
-            className="h-[44px] w-full bg-gray-200 rounded-md px-[20px]"
-          ></input>
-        </div>
-        <div className="h-fit w-full flex lg:flex-row justify-center gap-[20px] text-white pt-5 flex-col">
-          <div className="h-full w-full flex gap-[1.5%]">
-            <button
-              onClick={add}
-              className="h-[44px] w-full bg-teal-600 rounded-md flex items-center justify-center "
-            >
-              <svg
-                className="aspect-square max-w-[24px]"
-                fill="#ffffff"
-                width="24px"
-                height="24px"
-                viewBox="-3 0 19 19"
-                xmlns="http://www.w3.org/2000/svg"
-                class="cf-icon-svg"
-                stroke="#ffffff"
+  // Button effects on operations
+  useEffect(() => {
+    if (activeOperation) {
+      const timer = setTimeout(() => {
+        setActiveOperation(null);
+      }, 300);
+      return () => clearTimeout(timer);
+    }
+  }, [activeOperation]);
+
+  return (
+    <div className="min-h-screen w-screen bg-gradient-to-br from-teal-500 to-blue-600 flex justify-center items-center p-4 transition-all duration-300">
+      <div 
+        className="w-full max-w-md bg-white/90 backdrop-blur-md shadow-2xl rounded-2xl 
+                  flex flex-col items-center px-6 py-8 gap-6 transition-all duration-300
+                  hover:shadow-xl transform hover:-translate-y-1"
+      >
+        <h1 className="text-3xl font-bold bg-gradient-to-r from-teal-600 to-blue-600 bg-clip-text text-transparent">
+          Calculator
+        </h1>
+        
+        <div className="w-full space-y-4">
+          <div className="relative">
+            <input
+              placeholder="Enter the First value"
+              value={input1}
+              onChange={(e) => setInput1(e.target.value)}
+              className="h-12 w-full bg-gray-100 rounded-lg pl-4 pr-8 border-2 border-transparent 
+                        focus:border-teal-400 focus:outline-none transition-all duration-300
+                        shadow-sm focus:shadow-md"
+              type="number"
+            />
+            {input1 && (
+              <button 
+                onClick={() => setInput1("")}
+                className="absolute right-3 top-3.5 text-gray-400 hover:text-gray-600 transition-colors duration-200"
               >
-                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                <g
-                  id="SVGRepo_tracerCarrier"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                ></g>
-                <g id="SVGRepo_iconCarrier">
-                  <path d="M12.711 9.182a1.03 1.03 0 0 1-1.03 1.03H7.53v4.152a1.03 1.03 0 0 1-2.058 0v-4.152H1.318a1.03 1.03 0 1 1 0-2.059h4.153V4.001a1.03 1.03 0 0 1 2.058 0v4.152h4.153a1.03 1.03 0 0 1 1.029 1.03z"></path>
-                </g>
-              </svg>
-            </button>
-            <button
-              onClick={subtract}
-              className="h-[44px] w-full bg-teal-600 rounded-md flex items-center justify-center "
-            >
-              <svg
-                className="aspect-square max-w-[36px]"
-                width="64px"
-                height="64px"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                stroke="#ffffff"
-              >
-                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                <g
-                  id="SVGRepo_tracerCarrier"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                ></g>
-                <g id="SVGRepo_iconCarrier">
-                  {" "}
-                  <path
-                    d="M6 12L18 12"
-                    stroke="#ffffff"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  ></path>{" "}
-                </g>
-              </svg>
-            </button>
-            <button
-              onClick={multiply}
-              className="h-[44px] w-full bg-teal-600 rounded-md flex items-center justify-center"
-            >
-              <svg
-                height={20}
-                width={20}
-                className=" max-w-[20px]"
-                fill="#ffffff"
-                viewBox="-3.5 0 19 19"
-                xmlns="http://www.w3.org/2000/svg"
-                class="cf-icon-svg"
-                stroke="#ffffff"
-              >
-                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                <g
-                  id="SVGRepo_tracerCarrier"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                ></g>
-                <g id="SVGRepo_iconCarrier">
-                  <path d="M11.383 13.644A1.03 1.03 0 0 1 9.928 15.1L6 11.172 2.072 15.1a1.03 1.03 0 1 1-1.455-1.456l3.928-3.928L.617 5.79a1.03 1.03 0 1 1 1.455-1.456L6 8.261l3.928-3.928a1.03 1.03 0 0 1 1.455 1.456L7.455 9.716z"></path>
-                </g>
-              </svg>
-            </button>
-            <button
-              onClick={divide}
-              className="h-[44px] w-full bg-teal-600 rounded-md flex items-center justify-center"
-            >
-              <svg
-                className="aspect-square max-w-[32px] "
-                width="64px"
-                height="64px"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                stroke="#ffffff"
-              >
-                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                <g
-                  id="SVGRepo_tracerCarrier"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                ></g>
-                <g id="SVGRepo_iconCarrier">
-                  <path
-                    d="M6.34277 12L17.6565 12"
-                    stroke="#ffffff"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  ></path>{" "}
-                  <circle
-                    cx="12"
-                    cy="16.9498"
-                    r="1.5"
-                    transform="rotate(45 12 16.9498)"
-                    fill="#ffffff"
-                  ></circle>{" "}
-                  <circle
-                    cx="12"
-                    cy="7.05024"
-                    r="1.5"
-                    transform="rotate(45 12 7.05024)"
-                    fill="#ffffff"
-                  ></circle>{" "}
-                </g>
-              </svg>
-            </button>
+                ×
+              </button>
+            )}
           </div>
+          
+          <div className="relative">
+            <input
+              placeholder="Enter the Second value"
+              value={input2}
+              onChange={(e) => setInput2(e.target.value)}
+              className="h-12 w-full bg-gray-100 rounded-lg pl-4 pr-8 border-2 border-transparent 
+                        focus:border-teal-400 focus:outline-none transition-all duration-300
+                        shadow-sm focus:shadow-md"
+              type="number"
+            />
+            {input2 && (
+              <button 
+                onClick={() => setInput2("")}
+                className="absolute right-3 top-3.5 text-gray-400 hover:text-gray-600 transition-colors duration-200"
+              >
+                ×
+              </button>
+            )}
+          </div>
+        </div>
+        
+        <div className="w-full grid grid-cols-4 gap-3">
           <button
-            onClick={ClearAll}
-            className="min-h-[44px] lg:w-fit bg-teal-600 rounded-md flex items-center justify-center px-5 w-full whitespace-nowrap "
+            onClick={add}
+            className={`h-14 rounded-lg flex items-center justify-center text-white font-semibold
+                      bg-gradient-to-r from-teal-500 to-teal-400 hover:from-teal-600 hover:to-teal-500 
+                      transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-md
+                      ${activeOperation === "add" ? "scale-95 bg-teal-600" : ""}`}
           >
-            Clear All
+            <span className="text-2xl">+</span>
+          </button>
+          <button
+            onClick={subtract}
+            className={`h-14 rounded-lg flex items-center justify-center text-white font-semibold
+                      bg-gradient-to-r from-blue-500 to-blue-400 hover:from-blue-600 hover:to-blue-500 
+                      transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-md
+                      ${activeOperation === "subtract" ? "scale-95 bg-blue-600" : ""}`}
+          >
+            <span className="text-2xl">−</span>
+          </button>
+          <button
+            onClick={multiply}
+            className={`h-14 rounded-lg flex items-center justify-center text-white font-semibold
+                      bg-gradient-to-r from-indigo-500 to-indigo-400 hover:from-indigo-600 hover:to-indigo-500 
+                      transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-md
+                      ${activeOperation === "multiply" ? "scale-95 bg-indigo-600" : ""}`}
+          >
+            <span className="text-2xl">×</span>
+          </button>
+          <button
+            onClick={divide}
+            className={`h-14 rounded-lg flex items-center justify-center text-white font-semibold
+                      bg-gradient-to-r from-purple-500 to-purple-400 hover:from-purple-600 hover:to-purple-500 
+                      transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-md
+                      ${activeOperation === "divide" ? "scale-95 bg-purple-600" : ""}`}
+          >
+            <span className="text-2xl">÷</span>
           </button>
         </div>
-        <p className="text-2xl text-gray-600 font-bold ">{result}</p>
+        
+        <button
+          onClick={clearAll}
+          className="w-full h-12 bg-gray-200 rounded-lg hover:bg-gray-300 
+                    transition-all duration-300 font-medium text-gray-700
+                    transform hover:scale-105 active:scale-95 shadow-sm"
+        >
+          Clear All
+        </button>
+        
+        <div 
+          className={`w-full bg-gray-100 rounded-lg p-4 flex justify-center items-center min-h-16
+                    shadow-inner transition-all duration-300
+                    ${animation ? "scale-105 bg-teal-50" : ""}`}
+        >
+          <p className={`text-2xl font-bold transition-all duration-300 ${animation ? "text-teal-600 scale-110" : "text-gray-700"}`}>
+            {typeof result === "number" ? result.toLocaleString() : result}
+          </p>
+        </div>
       </div>
     </div>
   );
